@@ -198,17 +198,16 @@
 
 $(document).ready(function(){
   $("button").click(function(){
- var data = text_area_data;
+ var data = $("#formid");
     $.ajax({
         url: "http://localhost:5000/api/auth/login",
         type: "POST",
         dataType: 'json',
-        data: data,
+        data: data.serialize(),
         contentType: 'application/json',
         CrossDomain:true,
         success: function (data) {
-          $(".container").html(JSON.stringify(data.data))
-            console.log(data);
+          alert("Giriş başarılı");
         },
         error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
             alert(xhr.status);
