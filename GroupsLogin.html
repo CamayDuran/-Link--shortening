@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Groups</title>
 </head>
 <body>
@@ -60,33 +62,12 @@
   </nav>
     <div class="p-16">
         <div class="flex mt-8">
-            <div>
+         
+            <form id="ajax" method="GET" action="#">
                 <h1 class="text-3xl font-bold">Groups</h1>
-              <div class="form-check mt-10">
-                <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1">
-                  GroupA
-                </label>
-              </div>
-              <div class="form-check mt-4">
-                <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault2">
-                 GroupB
-                </label>
-              </div>
-              <div class="form-check mt-4">
-                <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1">
-                  GroupC
-                </label>
-              </div>
-              <div class="form-check mt-4">
-                <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault2">
-                 GroupD
-                </label>
-              </div>
-            </div>
+                <div id="yourcontainer"></div>
+             
+            </form>
           </div>
           <div class="mt-12 flex">
             <button class="bg-purple-400 text-white font-[Poppins] duration-500 px-6 py-2 mx-4 hover:bg-purple-500 rounded ">
@@ -99,8 +80,8 @@
             <a href="#"> Edit</a>
         </button>
         <button class="bg-purple-400 text-white font-[Poppins] duration-500 px-6 py-2 mx-4 hover:bg-purple-500 rounded ">
-            <a href="LinkShare.html"> Send</a>
-        </button>
+          <a href="LinkShare.html"> Send</a>
+      </button>
             </div>
         </div>
 
@@ -211,11 +192,37 @@
                 </a>
               </div>
             </div>
-          
+            
             <div class="text-center text-gray-700 p-4" style="background-color: rgba(0, 0, 0, 0.2);">
               © 2021 Copyright:
               <a class="text-gray-800" href="https://tailwind-elements.com/">Tailwind Elements</a>
             </div>
           </footer>
 </body>
+<script>
+
+  $(document).ready(function(){
+      $.ajax({
+          url: "http://localhost:5000/api/group/getAllGroup",
+          type: "GET",
+          dataType: 'json',
+          contentType: 'application/json',
+          CrossDomain:true,
+          success: function (data) {
+            console.log(data);
+            for (var i=0;i<=Object.keys(data.data).length;i++)
+            {
+              $("#yourcontainer").append('<div class="form-check mt-10"> <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="'+data.data[i]._id+'"><label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1"> '+data.data[i].GroupName+'  </label>  </div>');
+            }
+          },
+          error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+              alert(xhr.status);
+              alert(xhr.responseText);
+          }
+      });
+  
+  });
+
+  </script>
+  
 </html>

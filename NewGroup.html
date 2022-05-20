@@ -59,14 +59,14 @@
     </button>
   </div>
   </nav>
-
+ <form id="myForm">
       <div class="p-12">
       <h1 class="mt-8 text-2xl font-bold"> NEW GROUP</h1>
       <label class="mt-10 block text-gray-700 text-lg font-bold mb-2 ml-3" for="LongLink">Name</label>
-      <input type="text" id="LongLink" class="bg-gray-200 rounded w-1/2 text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+      <input type="text" id="GroupName" name="GroupName" class="bg-gray-200 rounded w-1/2 text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
      
       <label class="mt-6 block text-gray-700 text-lg font-bold mb-2 ml-3" for="LongLink">Description</label>
-      <input type="text" id="LongLink" class="bg-gray-200 rounded w-1/2 text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
+      <input type="text" id="Description" name="Description" class="bg-gray-200 rounded w-1/2 text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3">
       <div class="flex mt-8">
         <div>
             <h1 class="text-lg font-bold">Links</h1>
@@ -74,12 +74,12 @@
         </div>
       </div>
       <div class="mt-12">
-        <button class="bg-purple-400 text-white font-[Poppins] duration-500 px-6 py-2 mx-4 hover:bg-purple-500 rounded ">
+        <button type="submit" class="bg-purple-400 text-white font-[Poppins] duration-500 px-6 py-2 mx-4 hover:bg-purple-500 rounded ">
             <a href="#"> Create</a>
         </button>
         </div>
     </div>
-
+  </form>
 
       <footer class="text-center text-white bg-purple-50 mt-20">
         <div class="container pt-9">
@@ -196,31 +196,39 @@
       </footer>
 </body>
 
-<script>
 
-  $(document).ready(function(){
-    
-      $.ajax({
-          url: "http://localhost:5000/api/url/getAllLinks",
-          type: "GET",
-          dataType: 'json',
-          contentType: 'application/json',
-          CrossDomain:true,
-          success: function (data) {
-            console.log(data);
-            for (var i=0;i<=Object.keys(data.data).length;i++)
-            {
-              $("#yourcontainer").append('<div class="form-check mt-10"> <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="'+data.data[i]._id+'"><label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1"> '+data.data[i].shortUrl+'  </label>  </div>');
+  <script>
+
+    $(document).ready(function(){
+        $("#myForm").on("submit",function(event){
+            event.preventDefault();//Öğenin normal işlemini yapmasını engeller yeni işlev verir.
+          
+         let form= {//inputta değerleri string olarak alıyorum
+          GroupName:$("#GroupName").val(),
+           Description:$("#Description").val()
+         }
+         $.ajax({
+            url: "http://localhost:5000/api/group/registergroup",
+            type: "POST",
+            data: JSON.stringify(form),
+            dataType: 'json',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin' ,
+            contentType: 'application/json',
+            CrossDomain:true,
+            
+            success: function (data) {
+             window.location.replace("/Groups.html");      
+            },
+            error: function (xhr, ajaxOptions, thrownError) {         
+                console.log(location.href);
+                alert("Bilgileriniz yanlış");
+                alert(xhr.responseText);
             }
-          },
-          error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
-              alert(xhr.status);
-              alert(xhr.responseText);
-          }
-      });
-  
-  });
-
-  </script>
-  
+        });
+    
+    });
+    });
+        </script>
 </html>

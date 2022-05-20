@@ -61,7 +61,7 @@
         <button class="bg-purple-400 text-white font-[Poppins] duration-500 px-6 py-2 mx-4 hover:bg-purple-500 rounded ">
          <a href="login.html"> LOGIN</a>
         </button>
-        <button> test</button>
+        
       </div>
       </nav>
     
@@ -194,29 +194,5 @@
         </div>
       </footer>
 </body>
-<script>
-
-$(document).ready(function(){
-  $("button").click(function(){
- var data = $("#formid");
-    $.ajax({
-        url: "http://localhost:5000/api/auth/login",
-        type: "POST",
-        dataType: 'json',
-        data: data.serialize(),
-        contentType: 'application/json',
-        CrossDomain:true,
-        success: function (data) {
-          alert("Giriş başarılı");
-        },
-        error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
-            alert(xhr.status);
-            alert(xhr.responseText);
-        }
-    });
-
-});
-});
-</script>
 
 </html>
